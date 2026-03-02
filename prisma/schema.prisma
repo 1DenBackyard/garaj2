@@ -1,23 +1,35 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "sqlite" url = env("DATABASE_URL") }
-
-enum LeadStatus { NEW PROCESSED PENDING }
-model Lead {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  fullName String
-  contact String
-  carModel String
-  comment String?
-  selectedServices Json?
-  source String @default("web")
-  status LeadStatus @default(NEW)
+generator client {
+  provider = "prisma-client-js"
 }
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum LeadStatus {
+  NEW
+  PROCESSED
+  PENDING
+}
+
+model Lead {
+  id               Int        @id @default(autoincrement())
+  createdAt        DateTime   @default(now())
+  fullName         String
+  contact          String
+  carModel         String
+  comment          String?
+  selectedServices Json?
+  source           String     @default("web")
+  status           LeadStatus @default(NEW)
+}
+
 model Event {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   sessionId String
   eventName String
-  page String
-  meta Json?
+  page      String
+  meta      Json?
 }
