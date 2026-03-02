@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+body { @apply bg-bg text-white antialiased; background-image: radial-gradient(circle at 20% 20%, rgba(67,255,209,.08), transparent 40%), radial-gradient(circle at 80% 0, rgba(139,92,246,.15), transparent 35%); }
+.section { @apply mx-auto max-w-7xl px-4 md:px-8 py-16 md:py-24; }
+.card { @apply bg-card/70 backdrop-blur border border-white/10 rounded-2xl; }
