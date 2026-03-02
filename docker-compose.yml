@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    env_file: .env.production
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: negaraj
+      POSTGRES_USER: negaraj
+      POSTGRES_PASSWORD: negaraj
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U negaraj"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  nginx:
+    image: nginx:1.27-alpine
+    ports: ["80:80"]
+    depends_on: [app]
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+volumes:
+  pgdata:
