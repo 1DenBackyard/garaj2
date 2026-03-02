@@ -89,7 +89,7 @@ export default function HomeClient() {
   return (
     <main>
       <header className='sticky top-0 z-50 border-b border-white/10 bg-bg/80 backdrop-blur'>
-        <div className='section py-3 flex items-center justify-between'>
+        <div className='mx-auto max-w-7xl px-4 md:px-8 h-14 flex items-center justify-between'>
           <b className='brand-font text-lg'>NeGaraj</b>
           <nav className='hidden md:flex gap-4 text-[11px] uppercase tracking-[0.14em] text-white/80'>
             {navItems.map((item) => (
@@ -322,7 +322,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      <section id='lead' className='section'>
+      <section id='lead' className='section scroll-mt-24'>
         <h2 className='text-4xl font-bold'>Оставьте заявку на ремонт</h2>
         <form onSubmit={submit} className='card p-6 mt-4 grid md:grid-cols-2 gap-3'>
           <input required name='fullName' placeholder='ФИО' className='bg-black/40 rounded p-2' />
