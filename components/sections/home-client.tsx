@@ -108,7 +108,7 @@ export default function HomeClient() {
 
       <section className='section'>
         <h1 className='text-5xl font-black brand-font'>NeGaraj</h1>
-        <p className='text-xl mt-4'>{slogans[0]}</p>
+        <p className='text-xl mt-4'>{slogans[2]}</p>
         <p className='opacity-80 mt-3 max-w-2xl'>
           Профильные автомеханики. В свободное от основной работы время делаем качественно и дешевле
           рынка.
