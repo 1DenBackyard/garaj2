@@ -9,3 +9,4 @@ node_modules/
 .DS_Store
 .data/store.json
 *.log
+.env
