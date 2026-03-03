@@ -5,8 +5,9 @@ Fullstack лендинг+CRM для автосервиса BMW.
 ## Запуск локально
 1. `cp .env.example .env`
 2. `pnpm i`
-3. `pnpm prisma:migrate`
-4. `pnpm dev`
+3. `pnpm prisma:generate`
+4. `pnpm prisma:migrate`
+5. `pnpm dev`
 
 ## Telegram
 - Создайте бота через @BotFather.
@@ -21,3 +22,8 @@ Fullstack лендинг+CRM для автосервиса BMW.
 - `pnpm lint`
 - `pnpm test`
 - `pnpm test:visual`
+
+
+## Если видите ошибку `Cannot find module ' .prisma/client/default'`
+- Выполните: `pnpm prisma:generate`
+- Если не помогло: `rm -rf node_modules .next && pnpm i`

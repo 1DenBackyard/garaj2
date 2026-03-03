@@ -16,7 +16,7 @@ const coding = (id:string,title:string,from:number,tags:string[]=[]):Service=>({
 export const services: Service[] = [
 {id:'eng-1',title:'Чистка впуска 4 цилиндра',category:'Двигатель',priceType:'fixed',priceFrom:25000,tags:['впуск']},
 {id:'eng-2',title:'Чистка впуска 6 цилиндров',category:'Двигатель',priceType:'fixed',priceFrom:30000,tags:['впуск']},
-{id:'eng-3',title:'Замена подушек ДВС',category:'Двигатель',priceType:'fixed',priceFrom:15000,tags:['двергатель']},
+{id:'eng-3',title:'Замена подушек ДВС',category:'Двигатель',priceType:'fixed',priceFrom:15000,tags:['двигатель']},
 {id:'eng-4',title:'Замена демпфера',category:'Двигатель',priceType:'fixed',priceFrom:7000,tags:['демпфер']},
 {id:'eng-5',title:'Замена масляного стакана',category:'Двигатель',priceType:'range',priceFrom:7000,priceTo:15000,tags:['масло']},
 {id:'eng-6',title:'Замена клапанной крышки',category:'Двигатель',priceType:'fixed',priceFrom:15000,tags:['крышка']},

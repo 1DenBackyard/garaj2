@@ -44,8 +44,6 @@ export default function HomeClient() {
   const [sort, setSort] = useState('asc');
   const [selected, setSelected] = useState<string[]>([]);
   const [sent, setSent] = useState(false);
-  const [vin, setVin] = useState('');
-  const [symptom, setSymptom] = useState('');
 
   const filtered = useMemo(
     () =>
@@ -69,7 +67,7 @@ export default function HomeClient() {
       fullName: fd.get('fullName'),
       contact: fd.get('contact'),
       carModel: fd.get('carModel'),
-      comment: `${fd.get('comment') || ''}\nВыбрано: ${selected.join(', ')}\nVIN: ${vin || '-'}`,
+      comment: `${fd.get('comment') || ''}\nВыбрано: ${selected.join(', ')}`,
       selectedServices: selected
     };
     const r = await fetch('/api/lead', {
@@ -81,8 +79,6 @@ export default function HomeClient() {
       setSent(true);
       track('form_submit_success');
       e.currentTarget.reset();
-      setVin('');
-      setSymptom('');
     }
   };
 
@@ -108,7 +104,7 @@ export default function HomeClient() {
 
       <section className='section'>
         <h1 className='text-5xl font-black brand-font'>NeGaraj</h1>
-        <p className='text-xl mt-4'>{slogans[2]}</p>
+        <p className='text-xl mt-4'>{slogans[0]}</p>
         <p className='opacity-80 mt-3 max-w-2xl'>
           Профильные автомеханики. В свободное от основной работы время делаем качественно и дешевле
           рынка.
@@ -129,8 +125,8 @@ export default function HomeClient() {
           >
             <Car size={16} /> Посчитать стоимость
           </a>
-          <a href='tel:+70000000000' className='px-4 py-2 rounded-xl border border-white/20 inline-flex items-center gap-2'>
-            <PhoneCall size={16} /> Позвонить
+          <a href='tel:89779591082' className='px-4 py-2 rounded-xl border border-white/20 inline-flex items-center gap-2'>
+            <PhoneCall size={16} /> 89779591082
           </a>
         </div>
 
@@ -145,46 +141,6 @@ export default function HomeClient() {
               <div>{i[1]}</div>
             </div>
           ))}
-        </div>
-
-        <div className='grid md:grid-cols-2 gap-4 mt-6'>
-          <form
-            className='card p-4'
-            onSubmit={(e) => {
-              e.preventDefault();
-              document.getElementById('lead')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            <p className='text-sm text-white/70 mb-2'>Быстрый предзапрос по авто</p>
-            <div className='flex gap-2'>
-              <input
-                value={vin}
-                onChange={(e) => setVin(e.target.value)}
-                placeholder='VIN (последние 7 символов)'
-                className='bg-black/40 rounded p-2 w-full text-sm'
-              />
-              <button className='bg-neon text-black px-3 rounded text-sm'>Проверить</button>
-            </div>
-          </form>
-          <form
-            className='card p-4'
-            onSubmit={(e) => {
-              e.preventDefault();
-              setQ(symptom);
-              document.getElementById('calc')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            <p className='text-sm text-white/70 mb-2'>Подобрать работы по симптому</p>
-            <div className='flex gap-2'>
-              <input
-                value={symptom}
-                onChange={(e) => setSymptom(e.target.value)}
-                placeholder='например: вибрация, скрип, CarPlay'
-                className='bg-black/40 rounded p-2 w-full text-sm'
-              />
-              <button className='border border-neon text-neon px-3 rounded text-sm'>Найти</button>
-            </div>
-          </form>
         </div>
       </section>
 
@@ -206,6 +162,27 @@ export default function HomeClient() {
               {c}
             </button>
           ))}
+        </div>
+      </section>
+
+      <section id='lead' className='section scroll-mt-24'>
+        <h2 className='text-4xl font-bold'>Оставьте заявку на ремонт</h2>
+        <form onSubmit={submit} className='card p-6 mt-4 grid md:grid-cols-2 gap-3'>
+          <input required name='fullName' placeholder='ФИО' className='bg-black/40 rounded p-2' />
+          <input required name='contact' placeholder='Номер/ТГ' className='bg-black/40 rounded p-2' />
+          <input required name='carModel' placeholder='Марка/модель' className='bg-black/40 rounded p-2 md:col-span-2' />
+          <textarea name='comment' placeholder='Комментарий' className='bg-black/40 rounded p-2 md:col-span-2' />
+          <label className='text-sm md:col-span-2'>
+            <input required type='checkbox' /> Согласен на обработку данных
+          </label>
+          <button className='bg-neon text-black rounded p-2 md:col-span-2 inline-flex justify-center items-center gap-2'>
+            <Send size={16} /> Отправить
+          </button>
+          {sent && <div className='text-neon'>Заявка отправлена!</div>}
+        </form>
+        <div className='mt-3 text-sm'>
+          Или сразу: <a href='tel:89779591082'>Позвонить</a> /{' '}
+          <a href='https://t.me/negaraj_bot?start=lead'>Написать в бот @negaraj_bot</a>
         </div>
       </section>
 
@@ -287,6 +264,33 @@ export default function HomeClient() {
         </div>
       </section>
 
+      <section id='faq' className='section'>
+        <h2 className='text-4xl font-bold'>FAQ</h2>
+        {[
+          {
+            q: 'Какая гарантия на работы?',
+            a: 'На выполненные работы даём гарантию. Срок зависит от типа услуги и фиксируется при приёмке.'
+          },
+          {
+            q: 'Как записаться и что нужно для расчёта?',
+            a: 'Оставьте заявку на сайте или напишите в @negaraj_bot: фамилия, номер, модель и что беспокоит. Ответим с ориентиром по цене и времени.'
+          },
+          {
+            q: 'Запчасти сами купите или привозить?',
+            a: 'Оба варианта возможны. Можем подобрать и помочь выкупить оригинал/неоригинал. В прайсе на сайте указана только работа.'
+          },
+          {
+            q: 'Сколько по времени занимает ТО / мойка радиаторов / чистка впуска?',
+            a: 'ТО обычно делаем в течение дня. Мойка радиаторов и чистка впуска занимают от нескольких часов до 1–2 дней в зависимости от модели и состояния.'
+          }
+        ].map((fq) => (
+          <details key={fq.q} className='card p-4 mt-3'>
+            <summary>{fq.q}</summary>
+            <p className='opacity-70 mt-2'>{fq.a}</p>
+          </details>
+        ))}
+      </section>
+
       <section id='about' className='section'>
         <h2 className='text-4xl font-bold'>О нас</h2>
         <p className='opacity-80 mt-3'>
@@ -297,53 +301,8 @@ export default function HomeClient() {
         </p>
       </section>
 
-      <section id='faq' className='section grid md:grid-cols-2 gap-5'>
-        <div>
-          <h2 className='text-4xl font-bold'>FAQ</h2>
-          {[
-            'Какая гарантия на работы?',
-            'Как записаться и что нужно для расчёта?',
-            'Запчасти сами купите или привозить?',
-            'Сколько по времени занимает ТО / мойка радиаторов / чистка впуска?'
-          ].map((fq) => (
-            <details key={fq} className='card p-4 mt-3'>
-              <summary>{fq}</summary>
-              <p className='opacity-70 mt-2'>Отвечаем после диагностики и фиксируем условия перед стартом работ.</p>
-            </details>
-          ))}
-        </div>
-        <div>
-          <h3 className='text-2xl font-bold'>Отзывы</h3>
-          {['Сделали быстро и без лишних работ.', 'Пояснили каждую строчку по работам.', 'BMW снова едет как надо.'].map((t, i) => (
-            <div key={i} className='card p-4 mt-3'>
-              {t}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id='lead' className='section scroll-mt-24'>
-        <h2 className='text-4xl font-bold'>Оставьте заявку на ремонт</h2>
-        <form onSubmit={submit} className='card p-6 mt-4 grid md:grid-cols-2 gap-3'>
-          <input required name='fullName' placeholder='ФИО' className='bg-black/40 rounded p-2' />
-          <input required name='contact' placeholder='Номер/ТГ' className='bg-black/40 rounded p-2' />
-          <input required name='carModel' placeholder='Марка/модель' className='bg-black/40 rounded p-2 md:col-span-2' />
-          <textarea name='comment' placeholder='Комментарий' className='bg-black/40 rounded p-2 md:col-span-2' />
-          <label className='text-sm md:col-span-2'>
-            <input required type='checkbox' /> Согласен на обработку данных
-          </label>
-          <button className='bg-neon text-black rounded p-2 md:col-span-2 inline-flex justify-center items-center gap-2'>
-            <Send size={16} /> Отправить
-          </button>
-          {sent && <div className='text-neon'>Заявка отправлена!</div>}
-        </form>
-        <div className='mt-3 text-sm'>
-          Или сразу: <a href='tel:+70000000000'>Позвонить</a> / <a href='https://t.me/username'>Написать в TG</a>
-        </div>
-      </section>
-
       <footer id='contacts' className='section border-t border-white/10 text-sm opacity-80'>
-        Телефон: +7 (000) 000-00-00 • Telegram: @negaraj • Ежедневно 10:00–21:00
+        Телефон: 89779591082 • Telegram: @negaraj_bot • Ежедневно 10:00–21:00
       </footer>
     </main>
   );

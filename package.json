@@ -14,7 +14,10 @@
     "test:visual:update": "playwright test tests/visual --update-snapshots",
     "prisma:generate": "pnpm exec prisma generate",
     "prisma:migrate": "pnpm exec prisma migrate dev",
-    "prisma:studio": "pnpm exec prisma studio"
+    "prisma:studio": "pnpm exec prisma studio",
+    "postinstall": "pnpm prisma:generate",
+    "predev": "pnpm prisma:generate",
+    "prebuild": "pnpm prisma:generate"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
