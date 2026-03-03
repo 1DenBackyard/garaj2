@@ -7,5 +7,6 @@ export async function GET(req:Request){
     const csv='id,date,name,contact,car,status,comment\n'+leads.map(l=>`${l.id},${l.createdAt.toISOString()},"${l.fullName}","${l.contact}","${l.carModel}",${l.status},"${l.comment||''}"`).join('\n');
     return new NextResponse(csv,{headers:{'content-type':'text/csv','content-disposition':'attachment; filename=leads.csv'}});
   }
-  return NextResponse.json(leads);
+  const normalized = leads.map((l) => ({ ...l, selectedServicesParsed: (() => { try { return l.selectedServices ? JSON.parse(l.selectedServices as unknown as string) : []; } catch { return []; } })() }));
+  return NextResponse.json(normalized);
 }

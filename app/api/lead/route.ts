@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     const payload = leadSchema.parse(await req.json());
 
     const lead = await prisma.lead.create({
-      data: { ...payload, selectedServices: payload.selectedServices || [], source: 'web' }
+      data: { ...payload, selectedServices: JSON.stringify(payload.selectedServices || []), source: 'web' }
     });
 
     const telegram = await sendTelegram({

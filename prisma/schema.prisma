@@ -7,22 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum LeadStatus {
-  NEW
-  PROCESSED
-  PENDING
-}
-
 model Lead {
-  id               Int        @id @default(autoincrement())
-  createdAt        DateTime   @default(now())
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
   fullName         String
   contact          String
   carModel         String
   comment          String?
-  selectedServices Json?
-  source           String     @default("web")
-  status           LeadStatus @default(NEW)
+  selectedServices String?
+  source           String   @default("web")
+  status           String   @default("NEW")
 }
 
 model Event {
@@ -31,5 +25,5 @@ model Event {
   sessionId String
   eventName String
   page      String
-  meta      Json?
+  meta      String?
 }

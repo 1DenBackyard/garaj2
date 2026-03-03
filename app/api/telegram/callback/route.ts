@@ -55,7 +55,7 @@ async function forwardBotLead(rawText: string, fromChatId: number | string) {
       contact,
       carModel,
       comment,
-      selectedServices: [],
+      selectedServices: JSON.stringify([]),
       source: 'tg_bot'
     }
   });
