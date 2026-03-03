@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { categories, services } from '@/data/services';
 import { rub } from '@/lib/utils';
 import { Car, PhoneCall, Send, Wrench } from 'lucide-react';
@@ -44,6 +44,7 @@ export default function HomeClient() {
   const [sort, setSort] = useState('asc');
   const [selected, setSelected] = useState<string[]>([]);
   const [sent, setSent] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const filtered = useMemo(
     () =>
@@ -62,7 +63,10 @@ export default function HomeClient() {
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     track('form_submit_attempt');
-    const fd = new FormData(e.currentTarget);
+    const form = formRef.current;
+    if (!form) return;
+    
+    const fd = new FormData(form);
     const payload = {
       fullName: fd.get('fullName'),
       contact: fd.get('contact'),
@@ -78,7 +82,8 @@ export default function HomeClient() {
     if (r.ok) {
       setSent(true);
       track('form_submit_success');
-      e.currentTarget.reset();
+      form.reset();
+      setSelected([]);
     }
   };
 
@@ -167,7 +172,7 @@ export default function HomeClient() {
 
       <section id='lead' className='section scroll-mt-24'>
         <h2 className='text-4xl font-bold'>Оставьте заявку на ремонт</h2>
-        <form onSubmit={submit} className='card p-6 mt-4 grid md:grid-cols-2 gap-3'>
+        <form ref={formRef} onSubmit={submit} className='card p-6 mt-4 grid md:grid-cols-2 gap-3'>
           <input required name='fullName' placeholder='ФИО' className='bg-black/40 rounded p-2' />
           <input required name='contact' placeholder='Номер/ТГ' className='bg-black/40 rounded p-2' />
           <input required name='carModel' placeholder='Марка/модель' className='bg-black/40 rounded p-2 md:col-span-2' />
